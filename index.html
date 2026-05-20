@@ -4,31 +4,71 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Two Passions</title>
-  <meta name="description" content="A two-column flexbox layout showcasing two passions: poetry and boxing.">
+  <meta name="description" content="A compact two-column page about poetry and boxing, rebuilt from an early layout exercise.">
+  <link rel="canonical" href="https://abdimannor.github.io/two-passions/">
   <meta property="og:title" content="Two Passions">
-  <meta property="og:description" content="A two-column flexbox layout showcasing two passions: poetry and boxing.">
+  <meta property="og:description" content="A compact two-column page about poetry and boxing, rebuilt from an early layout exercise.">
   <meta property="og:url" content="https://abdimannor.github.io/two-passions/">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Two Passions">
-  <meta name="twitter:description" content="A two-column flexbox layout showcasing two passions: poetry and boxing.">
+  <meta name="twitter:description" content="A compact two-column page about poetry and boxing, rebuilt from an early layout exercise.">
+  <meta name="theme-color" content="#161616">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <div class="box">
-      <h1>Poesi</h1>
-      <img src="poetry.jpg" alt="Poesi">
-      <p>Poesi är en konstform som uttrycker känslor och idéer genom poetiska språkliga uttryck. Det är ett sätt att utforska och uttrycka sinnet och fantasin genom ord och rytm.</p>
-      <p>Poesi har en lång historia och har använts av författare och poeter över hela världen för att förmedla djupa känslor, skapa bilder i läsarens sinne och utmana tankarna. Det kan vara en kraftfull form av självuttryck och ett sätt att kommunicera och beröra människor på ett djupare plan.</p>
-    </div>
-    <div class="box">
-      <h1>Boxning</h1>
-      <img src="boxing.jpg" alt="Boxning">
-      <p>Boxning är en kampsport där två deltagare möts i en fyrkantig ring och använder sina händer för att landa slag på motståndaren. Det kräver styrka, snabbhet, teknik och strategi.</p>
-      <p>Boxning har funnits i århundraden och har utvecklats till en populär sport runt om i världen. Utövare använder olika slagtekniker, fotarbete och försvarstaktiker för att dominera i ringen och besegra sina motståndare. Det är en fysiskt krävande sport som kräver uthållighet, disciplin och mental styrka.</p>
-      <p>Utöver att vara en sport kan boxning också vara en träningsform som hjälper till att förbättra konditionen, koordinationen och självförtroendet. Det kan vara en utmanande men också givande hobby som främjar hälsa och välbefinnande.</p>
-    </div>
-  </div>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Layout exercise</p>
+      <h1>Two Passions</h1>
+      <p class="intro">Två intressen som ser olika ut på ytan, men delar samma kärna: rytm, disciplin och närvaro.</p>
+    </section>
+
+    <section class="passions" aria-label="Two passions">
+      <article class="passion-card poetry">
+        <div class="media-frame">
+          <img src="assets/images/poetry-writing.jpg" alt="Öppen bok och skrivande miljö" loading="lazy">
+          <div class="motion-loop poetry-loop" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="label">Poesi</span>
+          <h2>Språk som känsla</h2>
+          <p>Poesi använder rytm, bildspråk och koncentrerade ord för att uttrycka sådant som ofta är svårt att säga rakt ut.</p>
+          <p>Det är både hantverk och självuttryck: ett sätt att pröva tankar, stanna upp och ge känslor en tydligare form.</p>
+        </div>
+      </article>
+
+      <article class="passion-card boxing">
+        <div class="media-frame">
+          <img src="assets/gifs/boxing-motion.gif" alt="Animerad boxningssekvens med intensiv rörelse" loading="lazy">
+          <div class="motion-loop boxing-loop" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="label">Boxning</span>
+          <h2>Disciplin i rörelse</h2>
+          <p>Boxning kräver teknik, tajming, fotarbete och mental skärpa. Intensiteten syns först, men det är kontrollen som gör rörelsen intressant.</p>
+          <p>Det handlar om att läsa rytm, hålla press och ändå vara närvarande nog att välja rätt ögonblick.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="bridge-section" aria-labelledby="bridge-title">
+      <p class="eyebrow">Gemensam kärna</p>
+      <h2 id="bridge-title">Två uttryck, samma nerv</h2>
+      <div class="bridge-grid">
+        <p><strong>Rytm</strong> styr både raden och fotarbetet. Tappar du rytmen blir uttrycket tungt, oavsett om det sker på papper eller i ringen.</p>
+        <p><strong>Precision</strong> avgör om något träffar. Ett ord för mycket kan förstöra en dikt. En rörelse för sent kan avgöra en rond.</p>
+        <p><strong>Närvaro</strong> är skillnaden mellan att bara göra och att faktiskt känna vad som händer medan det händer.</p>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
