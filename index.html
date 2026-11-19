@@ -10,7 +10,14 @@
   <meta property="og:description" content="A compact two-column page about poetry and boxing, rebuilt from an early layout exercise.">
   <meta property="og:url" content="https://abdimannor.github.io/two-passions/">
   <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:locale" content="sv_SE">
+  <meta property="og:site_name" content="Two Passions">
+  <meta property="og:image" content="https://abdimannor.github.io/two-passions/assets/images/poetry-writing-still.jpg">
+  <meta property="og:image:width" content="480">
+  <meta property="og:image:height" content="270">
+  <meta property="og:image:alt" content="Öppen bok och skrivande miljö">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://abdimannor.github.io/two-passions/assets/images/poetry-writing-still.jpg">
   <meta name="twitter:title" content="Two Passions">
   <meta name="twitter:description" content="A compact two-column page about poetry and boxing, rebuilt from an early layout exercise.">
   <meta name="theme-color" content="#161616">
@@ -27,7 +34,11 @@
     <section class="passions" aria-label="Two passions">
       <article class="passion-card poetry">
         <div class="media-frame">
-          <img src="assets/images/poetry-writing.jpg" alt="Öppen bok och skrivande miljö" loading="lazy">
+          <picture>
+            <source srcset="assets/images/poetry-writing-still.jpg" media="(prefers-reduced-motion: reduce)">
+            <source srcset="assets/gifs/poetry-writing.webp" type="image/webp">
+            <img src="assets/gifs/poetry-writing.gif" alt="Öppen bok och skrivande miljö" width="480" height="270" loading="lazy" decoding="async">
+          </picture>
           <div class="motion-loop poetry-loop" aria-hidden="true">
             <span></span>
             <span></span>
@@ -44,7 +55,11 @@
 
       <article class="passion-card boxing">
         <div class="media-frame">
-          <img src="assets/gifs/boxing-motion.gif" alt="Animerad boxningssekvens med intensiv rörelse" loading="lazy">
+          <picture>
+            <source srcset="assets/images/boxing-motion-still.jpg" media="(prefers-reduced-motion: reduce)">
+            <source srcset="assets/gifs/boxing-motion.webp" type="image/webp">
+            <img src="assets/gifs/boxing-motion.gif" alt="Animerad boxningssekvens med intensiv rörelse" width="498" height="271" loading="lazy" decoding="async">
+          </picture>
           <div class="motion-loop boxing-loop" aria-hidden="true">
             <span></span>
             <span></span>
