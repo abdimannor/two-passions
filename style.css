@@ -44,3 +44,150 @@
   p { text-wrap: pretty; }
   strong { font-weight: 650; color: var(--ink); }
 }
+
+@layer layout {
+  main {
+    inline-size: min(78rem, 100% - 2 * var(--gutter));
+    margin-inline: auto;
+    padding-block: var(--space-l);
+  }
+
+  .passions {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-block-start: var(--space-l);
+    border-block: 1px solid var(--ink);
+  }
+
+  @media (width >= 48rem) {
+    .passions { grid-template-columns: 1fr 1fr; }
+  }
+}
+
+@layer components {
+  /* Masthead */
+  .hero { text-align: center; display: grid; justify-items: center; gap: var(--space-s); }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.9em;
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .eyebrow::before, .eyebrow::after { content: ""; inline-size: 2.5rem; border-block-start: 1px solid currentColor; }
+  h1 { font-size: var(--step-3); letter-spacing: -0.03em; line-height: 0.9; }
+  .intro {
+    max-inline-size: 30rem;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: var(--step-1);
+    line-height: 1.35;
+    color: var(--ink-soft);
+  }
+
+  /* The diptych */
+  .passion-card {
+    --accent: var(--poetry);
+    display: grid;
+    align-content: start;
+    gap: var(--space-m);
+    padding: var(--space-m) 0 var(--space-l);
+  }
+  .boxing { --accent: var(--boxing); }
+  .passion-card + .passion-card { border-block-start: 1px solid var(--rule); }
+
+  @media (width >= 48rem) {
+    .passion-card { padding-inline: 0 var(--gutter); }
+    .passion-card + .passion-card { border-block-start: 0; border-inline-start: 1px solid var(--rule); padding-inline: var(--gutter) 0; }
+  }
+
+  .media-frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--accent);
+    box-shadow: 0.6rem 0.6rem 0 var(--accent);
+    margin-inline-end: 0.6rem;
+  }
+  .media-frame img {
+    inline-size: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    filter: saturate(0.85) contrast(1.05);
+  }
+
+  .motion-loop {
+    position: absolute;
+    inset: auto 0 0 auto;
+    inline-size: 4.5rem;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    background: var(--paper);
+  }
+  .motion-loop span { position: absolute; background: var(--accent); }
+  .poetry-loop span { inline-size: 2.4rem; block-size: 2px; transform-origin: left; translate: 0 var(--y, 0); }
+  .poetry-loop span:nth-child(1) { --y: -0.6rem; }
+  .poetry-loop span:nth-child(2) { inline-size: 1.8rem; }
+  .poetry-loop span:nth-child(3) { --y: 0.6rem; inline-size: 1.2rem; }
+  .boxing-loop span { inline-size: 0.7rem; aspect-ratio: 1; border-radius: 50%; }
+  .boxing-loop span:nth-child(1) { translate: -1rem -0.4rem; }
+  .boxing-loop span:nth-child(2) { translate: 0.2rem 0.5rem; }
+  .boxing-loop span:nth-child(3) { translate: 1rem -0.7rem; }
+
+  .card-body { display: grid; gap: var(--space-s); max-inline-size: var(--measure); }
+  .label {
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .card-body h2 { font-size: var(--step-2); letter-spacing: -0.015em; margin-block-end: 0.2em; }
+  .card-body p { color: var(--ink-soft); }
+  .card-body h2 + p::first-letter {
+    float: inline-start;
+    font: 400 3.4em/0.8 var(--serif);
+    margin: 0.08em 0.12em 0 0;
+    color: var(--accent);
+  }
+
+  /* Shared core */
+  .bridge-section {
+    display: grid;
+    gap: var(--space-m);
+    justify-items: center;
+    text-align: center;
+    margin-block-start: var(--space-l);
+    padding: var(--space-l) var(--gutter);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .bridge-section .eyebrow { color: #c9bfae; }
+  .bridge-section h2 { font-size: var(--step-2); font-style: italic; max-inline-size: 16ch; }
+  .bridge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: var(--space-m) var(--gutter);
+    margin-block-start: var(--space-s);
+    text-align: start;
+    counter-reset: core;
+  }
+  .bridge-grid p {
+    counter-increment: core;
+    padding-block-start: var(--space-s);
+    border-block-start: 2px solid;
+    border-image: linear-gradient(90deg, var(--poetry), var(--boxing)) 1;
+    color: #d9d0c1;
+  }
+  .bridge-grid p::before {
+    content: counter(core, upper-roman);
+    display: block;
+    font: italic var(--step-1)/1 var(--serif);
+    color: #8f8676;
+    margin-block-end: 0.5rem;
+  }
+  .bridge-grid strong { display: block; font: 400 var(--step-1)/1.2 var(--serif); color: var(--paper); }
+}
