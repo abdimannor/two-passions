@@ -235,4 +235,8 @@ h2 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  .passion-card:hover img {
+    transform: none;
+  }
 }
