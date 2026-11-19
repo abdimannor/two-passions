@@ -171,6 +171,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
     gap: var(--space-m) var(--gutter);
+    inline-size: min(100%, 62rem);
     margin-block-start: var(--space-s);
     text-align: start;
     counter-reset: core;
@@ -190,4 +191,27 @@
     margin-block-end: 0.5rem;
   }
   .bridge-grid strong { display: block; font: 400 var(--step-1)/1.2 var(--serif); color: var(--paper); }
+}
+
+/* All movement lives here, so reduced motion is handled in one place. */
+@layer motion {
+  @media (prefers-reduced-motion: no-preference) {
+    .media-frame img { transition: scale 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.6s; }
+    .passion-card:hover img { scale: 1.04; filter: none; }
+    .poetry-loop span { animation: write 2.4s ease-in-out infinite; }
+    .poetry-loop span:nth-child(2) { animation-delay: 0.2s; }
+    .poetry-loop span:nth-child(3) { animation-delay: 0.4s; }
+    .boxing-loop span { animation: jab 1.6s cubic-bezier(0.5, 0, 0.2, 1) infinite; }
+    .boxing-loop span:nth-child(2) { animation-delay: 0.2s; }
+    .boxing-loop span:nth-child(3) { animation-delay: 0.4s; }
+  }
+
+  @keyframes write {
+    0%, 100% { scale: 0.35 1; opacity: 0.4; }
+    50% { scale: 1 1; opacity: 1; }
+  }
+  @keyframes jab {
+    0%, 100% { scale: 0.8; opacity: 0.5; }
+    40% { scale: 1.25; opacity: 1; }
+  }
 }
