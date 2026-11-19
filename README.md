@@ -25,7 +25,7 @@ The images are served through `<picture>`:
 2. other browsers get an animated WebP (about 0.5 MB each, down from 1.8 and 2.6 MB for the GIFs),
 3. the GIF stays as the fallback.
 
-Under `prefers-reduced-motion: reduce`, the CSS loops and the hover zoom are also cut to a near-instant single run.
+Under `prefers-reduced-motion: reduce`, the cards show a still frame instead of the animation, the CSS loops are cut to a near-instant single run, and the hover zoom is switched off.
 
 ## Running it locally
 
