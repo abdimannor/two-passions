@@ -1,11 +1,20 @@
-// One shared beat for the diptych. Scroll progress through the two columns becomes
-// --beat (0 to 1). CSS turns it into lines: poetry types itself out line by line,
-// and boxing answers every new line with a jab. Native animation-timeline drives
-// --beat where supported; otherwise this script writes it on scroll.
+// One shared beat for the diptych, framed as three rounds. Scroll progress through the
+// two columns is split into Rond 1, 2 and 3 with a short rest between them. Inside a
+// round, --beat (0 to 1) moves the poetry lines and the jabs; in a rest it holds still.
+// Each round owns a third of the poetry lines. The tempo (BPM) sets how many jabs land
+// per line. Other scripts listen for the "beat" event on window.
 const root = document.documentElement;
 const diptych = document.querySelector(".passions");
 const poetry = [...document.querySelectorAll(".poetry .card-body p")];
-const native = CSS.supports("animation-timeline: view()");
+const rounds = [...document.querySelectorAll("[data-round]")];
+const tempo = document.querySelector("[data-tempo]");
+const tempoOut = document.querySelector("[data-tempo-out]");
+
+// Scroll window for the whole bout (share of the diptych's cover range).
+const START = 0.06;
+const END = 0.58;
+const ROUND = 0.3; // each round, as a share of the bout
+const REST = 0.05; // each rest between rounds
 
 // Wrap words in spans. Text nodes between them keep the spaces, so the text is unchanged.
 const words = [];
@@ -29,6 +38,74 @@ for (const p of poetry) {
   }
 }
 
+// Tempo: 60 to 140 BPM, remembered. 80 BPM is one jab per line.
+const clampBpm = (v) => Math.min(140, Math.max(60, Math.round(Number(v) / 5) * 5 || 100));
+let bpm = 100;
+try { bpm = clampBpm(localStorage.getItem("tempo") ?? 100); } catch {}
+
+// Progress through the bout -> round, rest and beat.
+const state = (p) => {
+  for (let r = 0; r < 3; r++) {
+    const start = r * (ROUND + REST);
+    if (p < start) return { round: r - 1, rest: true, beat: r / 3 };
+    if (p < start + ROUND || r === 2) {
+      const local = Math.min(1, (p - start) / ROUND);
+      return { round: r, rest: false, beat: (r + local) / 3 };
+    }
+  }
+  return { round: 2, rest: false, beat: 1 };
+};
+
+let lineCount = 8;
+let frame = 0;
+let lastKey = "";
+const update = () => {
+  frame = 0;
+  const r = diptych.getBoundingClientRect();
+  const raw = (innerHeight - r.top) / (r.height + innerHeight);
+  const p = Math.min(1, Math.max(0, (raw - START) / (END - START)));
+  const before = raw < START;
+  const after = raw > END + 0.02;
+  const s = state(p);
+  const round = before ? -1 : s.round;
+  diptych.style.setProperty("--beat", s.beat.toFixed(4));
+  diptych.toggleAttribute("data-rest", s.rest && !before && !after);
+  root.toggleAttribute("data-rest", s.rest && !before && !after);
+  const b = s.beat * lineCount;
+  rounds.forEach((el, i) => {
+    const current = i === round;
+    if (current) el.setAttribute("aria-current", "step");
+    else el.removeAttribute("aria-current");
+    el.dataset.state = i < round || (current && (s.rest || after)) ? "done" : current ? "live" : "next";
+    const fill = i < round ? 1 : i > round ? 0 : s.rest ? 1 : Math.min(1, Math.max(0, s.beat * 3 - i));
+    el.style.setProperty("--fill", fill.toFixed(3));
+  });
+  const detail = {
+    round,
+    rest: s.rest || before || after,
+    line: Math.floor(b + 1e-6),
+    jab: Math.floor(b * (bpm / 80) + 1e-6),
+    bpm,
+  };
+  const key = `${detail.round}|${detail.rest}|${detail.line}|${detail.jab}`;
+  if (key !== lastKey) {
+    lastKey = key;
+    root.dataset.round = String(round + 1);
+    dispatchEvent(new CustomEvent("beat", { detail }));
+  }
+};
+
+const setTempo = (value, save) => {
+  bpm = clampBpm(value);
+  diptych.style.setProperty("--density", (bpm / 80).toFixed(3));
+  if (tempo) tempo.value = String(bpm);
+  if (tempoOut) tempoOut.textContent = `${bpm} BPM`;
+  if (save) try { localStorage.setItem("tempo", String(bpm)); } catch {}
+  dispatchEvent(new CustomEvent("tempochange", { detail: bpm }));
+  lastKey = "";
+  update();
+};
+
 // Group words into visual lines; each word gets k = line + its place in the line.
 const measure = () => {
   const lines = [];
@@ -41,26 +118,17 @@ const measure = () => {
   lines.forEach((line, i) => line.forEach((w, j) => {
     w.style.setProperty("--k", (i + (j / line.length) * 0.9).toFixed(3));
   }));
-  diptych.style.setProperty("--n", lines.length);
-};
-
-let frame = 0;
-const fallback = () => {
-  frame = 0;
-  const r = diptych.getBoundingClientRect();
-  const total = r.height + innerHeight;
-  // Mirrors animation-range: cover 8% cover 38%.
-  const raw = (innerHeight - r.top) / total;
-  const beat = Math.min(1, Math.max(0, (raw - 0.08) / 0.30));
-  diptych.style.setProperty("--beat", beat.toFixed(4));
+  lineCount = Math.max(1, lines.length);
+  diptych.style.setProperty("--n", lineCount);
+  update();
 };
 
 root.classList.add("has-rhythm");
 measure();
+setTempo(bpm, false);
 new ResizeObserver(measure).observe(diptych);
-if (!native) {
-  root.classList.add("rhythm-js");
-  addEventListener("scroll", () => { if (!frame) frame = requestAnimationFrame(fallback); }, { passive: true });
-  fallback();
-}
+addEventListener("scroll", () => { if (!frame) frame = requestAnimationFrame(update); }, { passive: true });
+addEventListener("resize", update);
 addEventListener("motionchange", measure);
+tempo?.addEventListener("input", () => setTempo(tempo.value, true));
+window.twoPassions = { get bpm() { return bpm; } };
