@@ -228,3 +228,28 @@
     40% { scale: 1.25; opacity: 1; }
   }
 }
+
+/* Shared beat: scroll position through the diptych, 0 to 1 */
+@property --beat { syntax: "<number>"; inherits: true; initial-value: 0; }
+
+@layer motion {
+  @media (prefers-reduced-motion: no-preference) {
+    .has-rhythm .passions {
+      --n: 8;
+      --b: calc(var(--beat) * var(--n));
+    }
+    .has-rhythm:not(.rhythm-js) .passions {
+      animation: beat linear both;
+      animation-timeline: view();
+      animation-range: cover 18% cover 62%;
+    }
+
+    /* Poetry types itself out, word by word, one line per beat */
+    .has-rhythm .poetry .w {
+      --on: clamp(0, (var(--b) - var(--k)) * 7, 1);
+      opacity: calc(0.12 + 0.88 * var(--on));
+      filter: blur(calc((1 - var(--on)) * 3px));
+    }
+  }
+  @keyframes beat { to { --beat: 1; } }
+}
