@@ -31,6 +31,7 @@
     <button type="button" class="switch" data-motion-toggle aria-pressed="false" hidden><span class="switch-dot" aria-hidden="true"></span>Animationer</button>
     <button type="button" class="switch" data-sound-toggle aria-pressed="false" hidden><span class="switch-dot" aria-hidden="true"></span>Ljud</button>
     <label class="tempo"><span>Tempo</span><input type="range" min="60" max="140" step="5" value="100" data-tempo aria-describedby="tempo-out"><output id="tempo-out" data-tempo-out>100 BPM</output></label>
+    <button type="button" class="switch poster-button" data-poster hidden>Spara som affisch</button>
   </div>
   <ol class="rounds" aria-label="Ronder">
     <li data-round="1"><span>Rond 1</span></li>
@@ -102,5 +103,6 @@
   </main>
   <script type="module" src="rhythm.js"></script>
   <script type="module" src="sound.js"></script>
+  <script type="module" src="poster.js"></script>
 </body>
 </html>
