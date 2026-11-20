@@ -23,8 +23,16 @@
   <meta name="theme-color" content="#f6f8fb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="style.css">
+  <script src="motion.js"></script>
 </head>
 <body>
+  <aside class="playback" aria-label="Uppspelning">
+  <div class="controls" role="group" aria-label="Uppspelning">
+    <button type="button" class="switch" data-motion-toggle aria-pressed="false" hidden><span class="switch-dot" aria-hidden="true"></span>Animationer</button>
+    <button type="button" class="switch" data-sound-toggle aria-pressed="false" hidden><span class="switch-dot" aria-hidden="true"></span>Ljud</button>
+  </div>
+  <p class="motion-notice" data-motion-notice hidden>Datorn ber om minskad rörelse, så animationerna står still. <button type="button">Spela animationerna</button></p>
+  </aside>
   <main>
     <section class="hero">
       <p class="eyebrow">Layout exercise</p>
@@ -36,7 +44,7 @@
       <article class="passion-card poetry">
         <div class="media-frame">
           <picture>
-            <source srcset="assets/images/poetry-writing-still.jpg" media="(prefers-reduced-motion: reduce)">
+            <source srcset="assets/images/poetry-writing-still.jpg" media="(prefers-reduced-motion: reduce)" data-still>
             <source srcset="assets/gifs/poetry-writing.webp" type="image/webp">
             <img src="assets/gifs/poetry-writing.gif" alt="Öppen bok och skrivande miljö" width="480" height="270" fetchpriority="high" decoding="async">
           </picture>
@@ -57,7 +65,7 @@
       <article class="passion-card boxing">
         <div class="media-frame">
           <picture>
-            <source srcset="assets/images/boxing-motion-still.jpg" media="(prefers-reduced-motion: reduce)">
+            <source srcset="assets/images/boxing-motion-still.jpg" media="(prefers-reduced-motion: reduce)" data-still>
             <source srcset="assets/gifs/boxing-motion.webp" type="image/webp">
             <img src="assets/gifs/boxing-motion.gif" alt="Animerad boxningssekvens med intensiv rörelse" width="498" height="271" loading="lazy" decoding="async">
           </picture>
@@ -86,9 +94,7 @@
       </div>
     </section>
   </main>
-  <footer class="site-footer">
-    <p>&copy; 2026 Mahad Abdullahi</p>
-  </footer>
   <script type="module" src="rhythm.js"></script>
+  <script type="module" src="sound.js"></script>
 </body>
 </html>
