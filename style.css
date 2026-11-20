@@ -239,8 +239,10 @@
     /* Poetry types itself out, word by word, one line per beat */
     &.has-rhythm .poetry .w {
       --on: clamp(0, (var(--b) - var(--k)) * 7, 1);
-      opacity: calc(0.12 + 0.88 * var(--on));
-      filter: blur(calc((1 - var(--on)) * 3px));
+      /* Untyped words start at 0.8 so they still pass AA contrast; colour and blur carry the reveal. */
+      opacity: calc(0.8 + 0.2 * var(--on));
+      color: color-mix(in oklab, var(--poetry) calc((1 - var(--on)) * 100%), currentColor);
+      filter: blur(calc((1 - var(--on)) * 0.6px));
     }
   }
   @keyframes beat { to { --beat: 1; } }
