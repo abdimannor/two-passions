@@ -27,6 +27,12 @@ The images are served through `<picture>`:
 
 Under `prefers-reduced-motion: reduce`, the cards show a still frame instead of the animation, the CSS loops are cut to a near-instant single run, and the hover zoom is switched off.
 
+## Rounds, tempo and poster
+
+- `rhythm.js` frames the scroll as three rounds (Rond 1, 2, 3) with a short rest between them, shown in a slim bar at the top. Each round owns a third of the poetry lines; during a rest the jabs stop.
+- The tempo dial (60 to 140 BPM, remembered in `localStorage`) sets how many jabs land per line and, with sound on, the metronome tick. `sound.js` rings a bell at the start of each round.
+- `poster.js` draws the diptych (headline, both still frames, the three shared keywords) to a 1080 x 1350 canvas in the page's colours and fonts and downloads it as a PNG. Everything stays in the browser.
+
 ## Running it locally
 
 Open `index.html` in a browser, or serve the folder:
