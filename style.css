@@ -206,9 +206,10 @@
   }
 }
 
-/* All movement lives here, so reduced motion is handled in one place. */
+/* All movement lives here, behind :root[data-motion="on"] (set by motion.js from the
+   OS setting or the visitor's own choice), so motion is handled in one place. */
 @layer motion {
-  @media (prefers-reduced-motion: no-preference) {
+  :root[data-motion="on"] {
     .media-frame img { transition: scale 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.6s; }
     .passion-card:hover img { scale: 1.04; filter: none; }
     .poetry-loop span { animation: write 2.4s ease-in-out infinite; }
@@ -233,19 +234,19 @@
 @property --beat { syntax: "<number>"; inherits: true; initial-value: 0; }
 
 @layer motion {
-  @media (prefers-reduced-motion: no-preference) {
-    .has-rhythm .passions {
+  :root[data-motion="on"] {
+    &.has-rhythm .passions {
       --n: 8;
       --b: calc(var(--beat) * var(--n));
     }
-    .has-rhythm:not(.rhythm-js) .passions {
+    &.has-rhythm:not(.rhythm-js) .passions {
       animation: beat linear both;
       animation-timeline: view();
       animation-range: cover 8% cover 38%;
     }
 
     /* Poetry types itself out, word by word, one line per beat */
-    .has-rhythm .poetry .w {
+    &.has-rhythm .poetry .w {
       --on: clamp(0, (var(--b) - var(--k)) * 7, 1);
       opacity: calc(0.12 + 0.88 * var(--on));
       filter: blur(calc((1 - var(--on)) * 3px));
@@ -256,19 +257,74 @@
 
 /* Boxing answers every new poetry line with a jab on the same beat */
 @layer motion {
-  @media (prefers-reduced-motion: no-preference) {
-    .has-rhythm .passions {
+  :root[data-motion="on"] {
+    &.has-rhythm .passions {
       --phase: mod(var(--b), 1);
       --jab: clamp(0, 1 - var(--phase) * 3.2, 1);
     }
-    .has-rhythm .boxing .media-frame {
+    &.has-rhythm .boxing .media-frame {
       box-shadow: calc(0.6rem + var(--jab) * 1.1rem) calc(0.6rem + var(--jab) * 0.5rem) 0 var(--accent);
       translate: calc(var(--jab) * -0.35rem) 0;
     }
-    .has-rhythm .boxing-loop span { animation: none; scale: calc(0.8 + var(--jab) * 0.7); opacity: calc(0.5 + var(--jab) * 0.5); }
-    .has-rhythm .boxing-loop span:nth-child(2) { scale: calc(0.8 + var(--jab) * 0.45); }
-    .has-rhythm .boxing .card-body h2 { translate: calc(var(--jab) * 0.6rem) 0; }
-    .has-rhythm .boxing .label { letter-spacing: calc(0.22em + var(--jab) * 0.2em); }
-    .has-rhythm .poetry-loop span { animation: none; scale: clamp(0.35, var(--phase) * 1.3, 1) 1; }
+    &.has-rhythm .boxing-loop span { animation: none; scale: calc(0.8 + var(--jab) * 0.7); opacity: calc(0.5 + var(--jab) * 0.5); }
+    &.has-rhythm .boxing-loop span:nth-child(2) { scale: calc(0.8 + var(--jab) * 0.45); }
+    &.has-rhythm .boxing .card-body h2 { translate: calc(var(--jab) * 0.6rem) 0; }
+    &.has-rhythm .boxing .label { letter-spacing: calc(0.22em + var(--jab) * 0.2em); }
+    &.has-rhythm .poetry-loop span { animation: none; scale: clamp(0.35, var(--phase) * 1.3, 1) 1; }
+  }
+}
+
+/* Motion switch and the reduced-motion notice */
+@layer components {
+  .controls {
+    position: fixed;
+    inset: auto auto 1rem 1rem;
+    z-index: 10;
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.35rem;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: var(--paper);
+    box-shadow: 0.25rem 0.25rem 0 var(--ink);
+  }
+  .switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.45em 0.95em;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font: 600 var(--step--1)/1 var(--sans);
+    cursor: pointer;
+  }
+  .switch[hidden] { display: none; }
+  .switch-dot { inline-size: 0.7em; block-size: 0.7em; border-radius: 50%; border: 2px solid currentColor; }
+  .switch[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+  .switch[aria-pressed="true"] .switch-dot { background: currentColor; }
+  .switch:focus-visible, .motion-notice button:focus-visible { outline: 3px solid var(--poetry); outline-offset: 2px; }
+  .motion-notice {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem 1rem;
+    padding: 0.7rem var(--gutter);
+    background: var(--ink);
+    color: var(--paper);
+    font-size: var(--step--1);
+    text-align: center;
+  }
+  .motion-notice[hidden] { display: none; }
+  .motion-notice button {
+    padding: 0.4em 1em;
+    border: 0;
+    border-radius: 999px;
+    background: var(--paper);
+    color: var(--ink);
+    font: 700 var(--step--1)/1 var(--sans);
+    cursor: pointer;
   }
 }

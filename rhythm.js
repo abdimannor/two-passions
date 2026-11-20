@@ -5,7 +5,6 @@
 const root = document.documentElement;
 const diptych = document.querySelector(".passions");
 const poetry = [...document.querySelectorAll(".poetry .card-body p")];
-const reduce = matchMedia("(prefers-reduced-motion: reduce)");
 const native = CSS.supports("animation-timeline: view()");
 
 // Wrap words in spans. Text nodes between them keep the spaces, so the text is unchanged.
@@ -64,4 +63,4 @@ if (!native) {
   addEventListener("scroll", () => { if (!frame) frame = requestAnimationFrame(fallback); }, { passive: true });
   fallback();
 }
-reduce.addEventListener("change", measure);
+addEventListener("motionchange", measure);
