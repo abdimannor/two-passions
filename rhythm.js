@@ -10,9 +10,8 @@ const rounds = [...document.querySelectorAll("[data-round]")];
 const tempo = document.querySelector("[data-tempo]");
 const tempoOut = document.querySelector("[data-tempo-out]");
 
-// Scroll window for the whole bout (share of the diptych's cover range).
-const START = 0.06;
-const END = 0.58;
+// The bout spans the page's whole scroll range, so Rond 1 opens at the top and
+// Rond 3 closes at the bottom, whatever the viewport.
 const ROUND = 0.3; // each round, as a share of the bout
 const REST = 0.05; // each rest between rounds
 
@@ -61,11 +60,10 @@ let frame = 0;
 let lastKey = "";
 const update = () => {
   frame = 0;
-  const r = diptych.getBoundingClientRect();
-  const raw = (innerHeight - r.top) / (r.height + innerHeight);
-  const p = Math.min(1, Math.max(0, (raw - START) / (END - START)));
-  const before = raw < START;
-  const after = raw > END + 0.02;
+  const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+  const p = Math.min(1, Math.max(0, scrollY / max));
+  const before = false;
+  const after = p >= 0.995;
   const s = state(p);
   const round = before ? -1 : s.round;
   diptych.style.setProperty("--beat", s.beat.toFixed(4));

@@ -45,7 +45,7 @@ const draw = async () => {
   g.textBaseline = "alphabetic";
   g.font = `700 22px ${sans}`;
   g.letterSpacing = "6px";
-  g.fillText("TVÅ PASSIONER", 72, 112);
+  g.fillText(document.querySelector(".hero .eyebrow").textContent.trim().toUpperCase(), 72, 112);
   g.letterSpacing = "0px";
   g.font = `400 150px ${serif}`;
   g.fillText(title, 66, 262);
@@ -53,7 +53,7 @@ const draw = async () => {
   // The diptych: two tinted panels, each with its still frame and an offset shadow
   const top = 330;
   const pw = (W - 72 * 2 - 24) / 2;
-  const ph = 560;
+  const ph = 600;
   [[a, c.poetry, c.pt, labels[0]], [b, c.boxing, c.bt, labels[1]]].forEach(([img, accent, tint, label], i) => {
     const x = 72 + i * (pw + 24);
     g.fillStyle = tint;
@@ -61,7 +61,7 @@ const draw = async () => {
     const ix = x + 28;
     const iy = top + 28;
     const iw = pw - 56;
-    const ih = iw * 0.75;
+    const ih = ph - 28 - 120;
     g.fillStyle = accent;
     g.fillRect(ix + 14, iy + 14, iw, ih);
     cover(g, img, ix, iy, iw, ih);

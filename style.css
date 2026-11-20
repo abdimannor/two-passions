@@ -338,6 +338,7 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
   }
+  body:has(.rounds) { padding-block-start: 1.75rem; }
   .rounds li {
     --fill: 0;
     position: relative;

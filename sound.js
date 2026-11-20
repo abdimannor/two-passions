@@ -101,7 +101,7 @@ const toggle = async () => {
   if (on) {
     ctx ??= new AudioContext();
     await ctx.resume();
-    tick(ctx.currentTime + 0.02);
+    if (last && !last.rest) { bell(ctx.currentTime + 0.02); nextTick = ctx.currentTime + 1.2; }
     restartMetro();
   } else {
     clearTimeout(metro);
