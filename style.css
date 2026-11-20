@@ -241,7 +241,7 @@
     .has-rhythm:not(.rhythm-js) .passions {
       animation: beat linear both;
       animation-timeline: view();
-      animation-range: cover 18% cover 62%;
+      animation-range: cover 8% cover 38%;
     }
 
     /* Poetry types itself out, word by word, one line per beat */

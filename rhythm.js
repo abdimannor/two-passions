@@ -50,9 +50,9 @@ const fallback = () => {
   frame = 0;
   const r = diptych.getBoundingClientRect();
   const total = r.height + innerHeight;
-  // Mirrors animation-range: cover 18% cover 62%.
+  // Mirrors animation-range: cover 8% cover 38%.
   const raw = (innerHeight - r.top) / total;
-  const beat = Math.min(1, Math.max(0, (raw - 0.18) / 0.44));
+  const beat = Math.min(1, Math.max(0, (raw - 0.08) / 0.30));
   diptych.style.setProperty("--beat", beat.toFixed(4));
 };
 
