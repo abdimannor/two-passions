@@ -274,9 +274,12 @@
     gap: 0.4rem;
     padding: 0.35rem;
     border: 1px solid var(--ink);
-    border-radius: 999px;
+    border-radius: 1.4rem;
     background: var(--paper);
     box-shadow: 0.25rem 0.25rem 0 var(--ink);
+    flex-wrap: wrap;
+    align-items: center;
+    max-inline-size: calc(100vw - 2rem);
   }
   .switch {
     display: inline-flex;
@@ -357,4 +360,21 @@
   .rounds li[data-state="done"]:not([aria-current]) { color: var(--ink); }
   :root[data-rest] .rounds li[aria-current]::after { background: var(--paper); }
   :root[data-rest] .rounds li[aria-current] span::after { content: " \00b7  vila"; }
+}
+
+/* Tempo dial: 60 to 140 BPM */
+@layer components {
+  .tempo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.2em 0.6em 0.2em 0.95em;
+    font: 600 var(--step--1)/1 var(--sans);
+  }
+  .tempo input {
+    inline-size: 6.5rem;
+    accent-color: var(--boxing);
+  }
+  .tempo input:focus-visible { outline: 3px solid var(--poetry); outline-offset: 3px; }
+  .tempo output { min-inline-size: 4.6em; font-variant-numeric: tabular-nums; color: var(--boxing); }
 }
