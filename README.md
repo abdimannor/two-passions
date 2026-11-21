@@ -50,3 +50,7 @@ A closing reflection or a longer essay in the page's own voice, a gallery or tim
 ## License
 
 Released under the MIT License. See [LICENSE](LICENSE).
+
+## Audio test
+
+`PLAYWRIGHT=/path/to/playwright/index.mjs node tests/audio.mjs` renders the bell, tick and thud from `synth.js` in an OfflineAudioContext and checks that each is audible, below clipping, free of edge clicks and distinct in pitch and length.
