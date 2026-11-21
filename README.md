@@ -10,7 +10,7 @@ A single page in Swedish about poetry and boxing. Two cards sit side by side, on
 - **Set the tempo.** A dial from 60 to 140 BPM sets how many jabs land per line. It is remembered between visits.
 - **Turn the sound on.** Off by default and never autoplaying: a soft metronome tick, a muffled thud per jab and a boxing bell at the start of each round, all synthesised with the Web Audio API (there are no audio files).
 - **Save it as a poster.** "Spara som affisch" draws the diptych (headline, both still frames, the three shared keywords) to a 1080 x 1350 canvas in the page's own colours and fonts and downloads a PNG. Nothing leaves the browser.
-- **Switch motion off or on.** A visible switch follows the system's reduced-motion setting by default and remembers an override.
+- **Switch motion off or on.** Motion is on by default; the pause button turns it off and remembers the choice.
 
 ## How it is built
 
@@ -24,7 +24,7 @@ Plain HTML, CSS and a few ES modules, no build step and no dependencies.
 - `motion.js`: the motion switch, run in `<head>` so the first paint is already right
 - `assets/`: the animated card images (GIF plus a lighter animated WebP, about 0.5 MB each instead of 1.8 and 2.6 MB) and one still frame of each, which is also the social preview
 
-The images are served through `<picture>`: still JPG frames under reduced motion, animated WebP otherwise, GIF as the fallback. With motion off the CSS loops and the hover zoom stop too.
+The images are served through `<picture>`: animated WebP by default, still JPG frames when motion is off, GIF as the fallback. With motion off the CSS loops and the hover zoom stop too.
 
 ## Running it locally
 
