@@ -386,3 +386,41 @@
   .poster-button:hover { background: var(--ink); }
   .poster-button:disabled { opacity: 0.7; cursor: progress; }
 }
+
+/* Compact control bar: one row on phones, tempo and poster in a fold-out panel */
+@layer components {
+  .more { display: contents; }
+  .more-toggle { display: none; }
+  .more-chevron {
+    inline-size: 0.45em;
+    block-size: 0.45em;
+    border: solid currentColor;
+    border-width: 0 2px 2px 0;
+    rotate: 45deg;
+    translate: 0 -0.15em;
+  }
+  .controls[data-open] .more-chevron { rotate: -135deg; translate: 0 0.1em; }
+  @media (width < 40rem) {
+    .controls { flex-wrap: nowrap; gap: 0.15rem; }
+    .controls .switch { padding-inline: 0.75em; }
+    .controls[data-collapsible] .more-toggle:not([hidden]) { display: inline-flex; }
+    .controls[data-collapsible] .more {
+      display: none;
+      position: absolute;
+      inset: auto 0 calc(100% + 0.5rem) 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+      padding: 0.6rem;
+      border: 1px solid var(--ink);
+      border-radius: 1.1rem;
+      background: var(--paper);
+      box-shadow: 0.25rem 0.25rem 0 var(--ink);
+    }
+    .controls[data-collapsible][data-open] { flex-wrap: nowrap; }
+    .controls[data-collapsible][data-open] .more { display: flex; }
+    .controls[data-collapsible] .tempo { justify-content: space-between; padding-inline: 0.4em; }
+    .controls[data-collapsible] .tempo input { flex: 1; }
+    .controls[data-collapsible] .poster-button { justify-content: center; }
+  }
+}
