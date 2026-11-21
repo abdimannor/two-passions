@@ -45,6 +45,9 @@ const onBeat = ({ detail }) => {
 const toggle = async () => {
   on = !on;
   button.setAttribute("aria-pressed", String(on));
+  const name = on ? "Stäng av ljud" : "Slå på ljud";
+  button.setAttribute("aria-label", name);
+  button.title = name;
   if (on) {
     ctx ??= new AudioContext();
     await ctx.resume();
