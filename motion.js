@@ -1,26 +1,27 @@
-// Motion switch. The OS "reduce motion" setting is the default, but a visible
-// switch can override it. The choice lives in localStorage and on <html data-motion>,
-// which both CSS and JS read. Runs in <head> so the first paint is already right.
+// Motion button. Motion is on unless the visitor turns it off; the choice lives in
+// localStorage and on <html data-motion>, which both CSS and JS read.
+// Runs in <head> so the first paint is already right.
 (() => {
   const root = document.documentElement;
   const KEY = "motion";
-  const os = matchMedia("(prefers-reduced-motion: reduce)");
   let saved = null;
   try { saved = localStorage.getItem(KEY); } catch {}
   const set = (value) => {
     root.dataset.motion = value;
-    // Picture sources that swap GIFs for stills follow the switch, not only the OS.
-    document.querySelectorAll("source[data-still]").forEach((s) => { s.media = value === "on" ? "not all" : "all"; });
+    // The animated images are the default; the stills apply only when motion is off.
+    document.querySelectorAll("source[data-still]").forEach((s) => { s.media = value === "off" ? "all" : "not all"; });
     dispatchEvent(new CustomEvent("motionchange", { detail: value }));
   };
-  root.dataset.motion = saved === "on" || saved === "off" ? saved : os.matches ? "off" : "on";
+  root.dataset.motion = saved === "off" ? "off" : "on";
 
   const ready = () => {
     const button = document.querySelector("[data-motion-toggle]");
-    const notice = document.querySelector("[data-motion-notice]");
     const sync = () => {
-      button?.setAttribute("aria-pressed", String(root.dataset.motion === "on"));
-      if (notice) notice.hidden = !(saved === null && os.matches && root.dataset.motion === "off");
+      const on = root.dataset.motion === "on";
+      const label = on ? "Pausa rörelse" : "Starta rörelse";
+      button?.setAttribute("aria-pressed", String(on));
+      button?.setAttribute("aria-label", label);
+      if (button) button.title = label;
     };
     const choose = (value) => {
       saved = value;
@@ -29,8 +30,6 @@
       sync();
     };
     if (button) { button.hidden = false; button.addEventListener("click", () => choose(root.dataset.motion === "on" ? "off" : "on")); }
-    notice?.querySelector("button")?.addEventListener("click", () => { choose("on"); button?.focus(); });
-    os.addEventListener("change", () => { if (saved === null) set(os.matches ? "off" : "on"); sync(); });
     set(root.dataset.motion);
     sync();
   };
