@@ -9,7 +9,8 @@ function watch(page) {
   page.on('pageerror', (e) => problems.push(`pageerror: ${e.message}`));
   page.on('requestfailed', (r) => {
     const err = r.failure() ? r.failure().errorText : '';
-    if (err.includes('ERR_ABORTED')) return; // navigation or media cancelled by the browser
+    // navigation or media cancelled by the browser itself (Chromium / Firefox / WebKit wording)
+    if (/ERR_ABORTED|NS_BINDING_ABORTED|cancelled/i.test(err)) return;
     problems.push(`requestfailed: ${r.url()} ${err}`);
   });
   page.on('response', (r) => { if (r.status() >= 400) problems.push(`http ${r.status()}: ${r.url()}`); });
