@@ -36,3 +36,22 @@ test('poster button downloads a PNG', async ({ page }) => {
   ]);
   expect(download.suggestedFilename()).toBe('two-passions-affisch.png');
 });
+
+test('sound is a quiet icon button that swaps its name and icon', async ({ page }) => {
+  await page.goto('./');
+  const sound = page.getByRole('button', { name: 'Slå på ljud' });
+  await expect(sound).toHaveAttribute('aria-pressed', 'false');
+  await expect(sound).toHaveAttribute('title', 'Slå på ljud');
+  const box = await sound.boundingBox();
+  expect(Math.round(box.width)).toBe(34);
+  expect(Math.round(box.height)).toBe(34);
+  await expect(sound.locator('.icon-sound-off')).toBeVisible();
+  await expect(sound.locator('.icon-sound-on')).toBeHidden();
+  await sound.click();
+  const off = page.getByRole('button', { name: 'Stäng av ljud' });
+  await expect(off).toHaveAttribute('aria-pressed', 'true');
+  await expect(off).toHaveAttribute('title', 'Stäng av ljud');
+  await expect(off.locator('.icon-sound-on')).toBeVisible();
+  await off.click();
+  await expect(page.getByRole('button', { name: 'Slå på ljud' })).toHaveAttribute('aria-pressed', 'false');
+});
