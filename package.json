@@ -2,12 +2,13 @@
   "name": "two-passions",
   "private": true,
   "scripts": {
-    "test": "playwright test",
+    "test": "playwright test && node tests/audio.mjs",
     "validate": "html-validate \"**/*.html\""
   },
   "devDependencies": {
     "@playwright/test": "1.64.0",
     "axe-core": "^4.14.1",
-    "html-validate": "^11.21.1"
+    "html-validate": "^11.21.1",
+    "playwright": "1.64.0"
   }
 }
